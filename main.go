@@ -52,7 +52,6 @@ func GenerateDockerHubInstallYaml(gcrImages, dockerImages []string, ori_install_
 	}
 
 	docker_install_yaml = string(ori_install_yaml_byte)
-	fmt.Println(docker_install_yaml)
 
 	for i := range gcrImages {
 		docker_install_yaml = strings.ReplaceAll(docker_install_yaml, gcrImages[i], dockerImages[i])
