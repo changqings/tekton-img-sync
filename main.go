@@ -74,7 +74,7 @@ func GenerateBuildAndPushShell(gcrImgs, dockerImgs []string) string {
 
 	// pull
 	for i := range dockerImgs {
-		builder.WriteString("docker tag" + " " + gcrImgs[i] + " " + dockerImgs[i] + "\n")
+		builder.WriteString("docker pull" + " " + gcrImgs[i] + "\n")
 	}
 
 	// tag
