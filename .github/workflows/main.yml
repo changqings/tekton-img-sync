@@ -24,8 +24,8 @@ jobs:
         with:
           username: "${{ secrets.DOCKER_USERNAME }}"
           password: "${{ secrets.DOCKER_PASSWD }}"
-        run: |-
-          /bin/sh build_and_push.sh
+      - name: docker build
+        run: /bin/sh build_and_push.sh
       - name: new install yaml
         run: ./tekton-gcr-to-docker-hub > install-with-docker-reg.yaml
       - name: new release
