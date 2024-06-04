@@ -27,7 +27,7 @@ jobs:
       - name: Docker images sync
         run: /bin/sh pull_tag_push.sh
       - name: Tekton install yaml with docker hub
-        run: ./tekton-gcr-to-docker-hub > install-with-docker-reg.yaml
+        run: ./tekton-gcr-to-docker-hub --yaml=true > install-with-docker-reg.yaml
       - name: New github release
         uses: marvinpinto/action-automatic-releases@v1.2.1
         with:
