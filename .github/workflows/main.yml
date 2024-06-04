@@ -6,7 +6,7 @@ on:
     - cron: "0 2 * * 1-5"
 jobs:
   build:
-    name: build_and_push
+    name: tekton_gcr_sync
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v4
@@ -16,25 +16,25 @@ jobs:
           go-version: "1.22"
       - name: Build golang
         run: go build
-      - name: tag and push
-        run: ./tekton-gcr-to-docker-hub > build_and_push.sh
+      - name: Generate script
+        run: ./tekton-gcr-to-docker-hub > pull_tag_push.sh
       - name: Docker Auth
         id: docker-auth
         uses: "docker/login-action@v3.2.0"
         with:
           username: "${{ secrets.DOCKER_USERNAME }}"
           password: "${{ secrets.DOCKER_PASSWD }}"
-      - name: docker build
-        run: /bin/sh build_and_push.sh
-      - name: new install yaml
+      - name: Docker images sync
+        run: /bin/sh pull_tag_push.sh
+      - name: Tekton install yaml with docker hub
         run: ./tekton-gcr-to-docker-hub > install-with-docker-reg.yaml
-      - name: new release
+      - name: New github release
         uses: marvinpinto/action-automatic-releases@v1.2.1
         with:
           # GitHub secret token
           repo_token: ${{ secrets.GIT_REPO_RW }}
           # Git tag (for automatic releases)
-          automatic_release_tag: ${{ env.ReleaseVersion }}
+          automatic_release_tag: "latest"
           prerelease: false
           files: |
             install-with-docker-reg.yaml
