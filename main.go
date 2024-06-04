@@ -72,10 +72,17 @@ func GenerateBuildAndPushShell(gcrImgs, dockerImgs []string) string {
 	var builder strings.Builder
 	builder.WriteString("#!/bin/bash\n")
 
+	// pull
 	for i := range dockerImgs {
 		builder.WriteString("docker tag" + " " + gcrImgs[i] + " " + dockerImgs[i] + "\n")
 	}
 
+	// tag
+	for i := range dockerImgs {
+		builder.WriteString("docker tag" + " " + gcrImgs[i] + " " + dockerImgs[i] + "\n")
+	}
+
+	// push
 	for i := range dockerImgs {
 		builder.WriteString("docker push" + " " + dockerImgs[i] + "\n")
 	}
